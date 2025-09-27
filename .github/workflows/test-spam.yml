@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Grumpy Test
-        uses: docker://huitseeker/grumpy:latest
+        uses: ./action.yml
         if: github.event_name != 'workflow_dispatch'
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}

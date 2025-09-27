@@ -1,4 +1,4 @@
-FROM rust:1.90-slim AS builder
+FROM --platform=$BUILDPLATFORM rust:1.90-slim AS builder
 
 ENV USER=appuser
 ENV UID=10001
@@ -24,8 +24,6 @@ COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/group /etc/group
 
-COPY --from=builder /app/target/release/grumpy /bin/grumpy
+COPY --from=builder /app/target/release/grumpy /grumpy
 
-USER appuser:appuser
-
-ENTRYPOINT ["/bin/grumpy"]
+ENTRYPOINT ["/grumpy"]
