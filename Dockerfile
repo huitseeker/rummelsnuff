@@ -1,15 +1,14 @@
-FROM rust:1.82-slim AS builder
+FROM rust:1.90-slim AS builder
 
 ENV USER=appuser
 ENV UID=10001
 
-RUN adduser \
-    --disabled-password \
-    --gecos "" \
-    --home "/nonexistent" \
-    --shell "/sbin/nologin" \
-    --no-create-home \
+RUN useradd \
+    --system \
     --uid "${UID}" \
+    --shell /sbin/nologin \
+    --create-home \
+    --home-dir /app \
     "${USER}"
 
 WORKDIR /app
