@@ -1,4 +1,4 @@
-FROM rust:1.70-slim AS builder
+FROM rust:1.82-slim AS builder
 
 ENV USER=appuser
 ENV UID=10001
@@ -14,9 +14,7 @@ RUN adduser \
 
 WORKDIR /app
 
-COPY Cargo.toml Cargo.lock ./
-RUN cargo build --release
-
+COPY Cargo.toml ./
 COPY src/ ./src/
 RUN cargo build --release
 
