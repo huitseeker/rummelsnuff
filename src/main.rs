@@ -48,7 +48,7 @@ async fn main() -> Result<()> {
         .head
         .repo
         .as_ref()
-        .map_or(false, |r| r.fork.unwrap_or(false))
+        .is_some_and(|r| r.fork.unwrap_or(false))
     {
         println!("The pull request is not from a forked repository");
         return Ok(());
@@ -84,13 +84,7 @@ async fn main() -> Result<()> {
     let forks_count = user_repos
         .items
         .iter()
-        .filter(|r| {
-            if let Some(fork) = r.get("fork").and_then(|f| f.as_bool()) {
-                fork
-            } else {
-                false
-            }
-        })
+        .filter(|r| r.get("fork").and_then(|f| f.as_bool()).unwrap_or_default())
         .count() as i64;
 
     let pr_files_url = format!("/repos/{}/{}/pulls/{}/files", owner, repo, pr_num);
