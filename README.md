@@ -6,7 +6,7 @@ A GitHub action to detect and mark spam pull requests from forked repositories.
 Rules
 -----
 
-A pull request is considered as spam if it's coming from a forked repository and meets at least one of following criterias:
+A PR is considered as spam if it's coming from a forked repository and meets at least one of following criterias:
 
 * The user registered in the last 6 months and has only forked repositories
 * The PR is changing documentation insignificantly
