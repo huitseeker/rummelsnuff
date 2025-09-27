@@ -1,4 +1,4 @@
-FROM golang:latest AS builder
+FROM rust:1.70-slim AS builder
 
 ENV USER=appuser
 ENV UID=10001
@@ -12,14 +12,13 @@ RUN adduser \
     --uid "${UID}" \
     "${USER}"
 
-WORKDIR $GOPATH/github.com/andrewslotin/rummelsnuff
+WORKDIR /app
 
-COPY go.mod go.sum ./
-RUN go mod download
+COPY Cargo.toml Cargo.lock ./
+RUN cargo build --release
 
-COPY *.go .
-
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags='-w -s -extldflags "-static"' -a -o /tmp/rummelsnuff .
+COPY src/ ./src/
+RUN cargo build --release
 
 FROM scratch
 
@@ -28,8 +27,8 @@ COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/group /etc/group
 
-COPY --from=builder /tmp/rummelsnuff /bin/rummelsnuff
+COPY --from=builder /app/target/release/grumpy /bin/grumpy
 
 USER appuser:appuser
 
-ENTRYPOINT ["/bin/rummelsnuff"]
+ENTRYPOINT ["/bin/grumpy"]

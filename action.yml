@@ -1,6 +1,6 @@
-name: "Check and reject spam PRs"
-description: "Run basic checks and close & mark spam PRs"
-author: "Andrey Slotin"
+name: "Grumpy spam filter"
+description: "Detect and label spam pull requests from forked repositories"
+author: "Grumpy Maintainer"
 inputs:
   access_token:
     description: "GitHub access token"
