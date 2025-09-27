@@ -1,0 +1,23 @@
+name: Test Grumpy Action (Self-Hosted)
+
+on:
+  pull_request_target:
+    types: [opened, reopened]
+  workflow_dispatch: # Allow manual testing
+
+jobs:
+  test-spam-detection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Grumpy Test
+        uses: docker://grumpybot/grumpy:latest
+        if: github.event_name != 'workflow_dispatch'
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+          spam_label: "Spam"
+          close_spam_prs: "no" # Don't close test PRs automatically
+
+      - name: Manual Test Result
+        if: always() && github.event_name == 'workflow_dispatch'
+        run: |
+          echo "Grumpy action test completed manually"
