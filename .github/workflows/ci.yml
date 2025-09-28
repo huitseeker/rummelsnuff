@@ -25,3 +25,22 @@ jobs:
 
       - name: Build
         run: cargo build --release
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: |
+          export DOCKER_BUILDKIT=1
+          export BUILDKIT_INLINE_CACHE=1
+          docker build --platform linux/amd64 -t grumpy-test .
+          docker build --platform linux/amd64 --target builder -t grumpy-builder-test .
+          # Verify the image was built correctly
+          docker image inspect grumpy-test | grep -A 5 '"Architecture"'
