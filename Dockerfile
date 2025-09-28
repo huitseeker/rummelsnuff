@@ -28,7 +28,7 @@ COPY src/ ./src/
 RUN cargo build --release
 
 # Final stage - minimal image
-FROM scratch
+FROM debian:bookworm-slim
 
 # Copy essential files
 COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
