@@ -2,6 +2,7 @@ Grumpy
 ======
 
 A GitHub action to detect and mark spam pull requests from forked repositories.
+Test
 
 Rules
 -----
