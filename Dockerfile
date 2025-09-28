@@ -5,8 +5,9 @@ FROM --platform=$BUILDPLATFORM rust:1.90-slim AS builder
 ARG BUILDKIT_INLINE_CACHE=1
 
 ENV USER=appuser
-ENV UID=10001
+ENV UID=101
 
+# Use a system UID that's within the acceptable range
 RUN useradd \
     --system \
     --uid "${UID}" \
@@ -20,13 +21,10 @@ WORKDIR /app
 # Copy only manifest files first for better caching
 COPY Cargo.toml Cargo.lock ./
 
-# Build dependencies (cached separately)
-RUN cargo build --release --offline
-
 # Copy source code
 COPY src/ ./src/
 
-# Build the application
+# Build the application (dependencies cached by Docker layer)
 RUN cargo build --release
 
 # Final stage - minimal image
