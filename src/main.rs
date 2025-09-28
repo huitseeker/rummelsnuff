@@ -181,7 +181,7 @@ async fn mark_as_spam(
 ) -> Result<()> {
     // Try to add label (may exist already)
     let labels_url = format!("/repos/{}/{}/issues/{}/labels", owner, repo, pr_num);
-    let _: () = octocrab
+    let _: Vec<serde_json::Value> = octocrab
         .post(labels_url, Some(&serde_json::json!([spam_label])))
         .await?;
 
