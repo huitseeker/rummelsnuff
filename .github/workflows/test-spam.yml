@@ -9,6 +9,9 @@ jobs:
   test-spam-detection:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Grumpy Test
         uses: ./
         if: github.event_name != 'workflow_dispatch'
