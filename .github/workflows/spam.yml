@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Grumpy (Published Version)
-        uses: ./action.yml
+        uses: ./
         if: github.event_name != 'workflow_dispatch'
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
