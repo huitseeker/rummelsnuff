@@ -8,9 +8,9 @@ Rules
 
 A pull request is considered as spam if it's coming from a forked repository and meets at least one of following criterias:
 
-* The user registered in the last 6 months and has only forked repositories
-* The PR is changing documentation insignificantly
-* The PR consists of additions and deletions in a single file only
+1. **New user with only forks**: The user registered in the last 6 months and has only forked repositories
+2. **Insignificant documentation changes**: The PR only modifies documentation files (.md, .txt, .rst) with less than 10 total lines added/deleted
+3. **Minimal single-file changes**: The PR consists of additions and deletions in a single file only with less than 20 total lines added/deleted
 
 Installation
 ------------

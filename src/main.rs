@@ -150,8 +150,8 @@ async fn main() -> Result<()> {
         return Ok(());
     }
 
-    // Check criteria 3: PR consists of additions and deletions in a single file only
-    if pr_files.len() == 1 && additions > 0 && deletions > 0 {
+    // Check criteria 3: PR consists of additions and deletions in a single file only with minimal total changes
+    if pr_files.len() == 1 && additions > 0 && deletions > 0 && (additions + deletions) < 20 {
         println!(
             "::error {}/{}#{}: PR consists of additions and deletions in a single file only",
             owner, repo, pr_num
